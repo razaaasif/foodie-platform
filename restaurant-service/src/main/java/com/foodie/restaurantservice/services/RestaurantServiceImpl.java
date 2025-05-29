@@ -1,10 +1,13 @@
 package com.foodie.restaurantservice.services;
 
+import com.foodie.restaurantservice.constants.OrderStatus;
+import com.foodie.restaurantservice.dto.OrderPreparedEvent;
 import com.foodie.restaurantservice.dto.RestaurantDTO;
 import com.foodie.restaurantservice.entity.Restaurant;
 import com.foodie.restaurantservice.repository.RestaurantRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository repository;
-
+    private final KafkaTemplate<String,Object> kafkaTemplate;
     @Override
     public RestaurantDTO save(RestaurantDTO dto) {
         return mapToDTO(repository.save(mapToEntity(dto)));
@@ -44,6 +47,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public void markOrderPreparing(Long orderId,Long restaurantId) {
+        OrderPreparedEvent event = new OrderPreparedEvent(orderId, restaurantId, OrderStatus.PREPARING);
+        kafkaTemplate.send("order-preparing", event);
+    }
+
+    @Override
+    public void markOrderPrepared(Long orderId,Long restaurantId) {
+        OrderPreparedEvent event = new OrderPreparedEvent(orderId, restaurantId, OrderStatus.PREPARED);
+        kafkaTemplate.send("order-prepared", event);
     }
 
     private RestaurantDTO mapToDTO(Restaurant r) {

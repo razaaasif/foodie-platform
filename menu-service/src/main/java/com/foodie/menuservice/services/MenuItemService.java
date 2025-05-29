@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author : aasif.raza
  */
 public interface MenuItemService {
-    MenuItemDTO save(MenuItemDTO menuItemDTO);
+    List<MenuItemDTO> save(List<MenuItemDTO> menuItemDTO);
     List<MenuItemDTO> findAll();
     List<MenuItemDTO> getByRestaurant(Long restaurantId);
     List<MenuItemDTO> searchByName(String name);

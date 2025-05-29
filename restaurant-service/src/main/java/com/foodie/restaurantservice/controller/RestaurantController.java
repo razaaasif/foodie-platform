@@ -41,4 +41,16 @@ public class RestaurantController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/orders/{orderId}/preparing")
+    public ResponseEntity<Void> markOrderPreparing(@PathVariable Long orderId,@RequestParam Long restaurantId) {
+        service.markOrderPreparing(orderId,restaurantId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/orders/{orderId}/prepared")
+    public ResponseEntity<Void> markOrderPrepared(@PathVariable Long orderId,@RequestParam Long restaurantId) {
+        service.markOrderPrepared(orderId,restaurantId);
+        return ResponseEntity.ok().build();
+    }
 }

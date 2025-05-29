@@ -485,3 +485,138 @@ java.io.FileNotFoundException: /home/moglix/Desktop/my-repos/americano-foods/men
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 22:03:02.845
 !MESSAGE Boot project REMOVED: restaurant-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 22:19:31.594
+!MESSAGE Classpath changed for project: order-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 22:19:31.601
+!MESSAGE Boot project ADDED: order-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 22:19:32.562
+!MESSAGE Classpath changed for project: order-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 22:19:47.465
+!MESSAGE Classpath changed for project: order-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 22:19:47.469
+!MESSAGE Boot project REMOVED: order-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 23:57:52.538
+!MESSAGE Classpath changed for project: payment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 23:57:52.539
+!MESSAGE Boot project ADDED: payment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 23:57:53.199
+!MESSAGE Classpath changed for project: payment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 23:57:59.821
+!MESSAGE Classpath changed for project: payment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-28 23:57:59.821
+!MESSAGE Boot project REMOVED: payment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:21:55.978
+!MESSAGE Classpath changed for project: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:21:55.979
+!MESSAGE Boot project ADDED: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:21:56.264
+!MESSAGE Classpath changed for project: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:21:56.397
+!MESSAGE Classpath changed for project: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:21:56.398
+!MESSAGE Boot project REMOVED: rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:38.394
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:38.513
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:38.563
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:38.640
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:38.702
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:38.705
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:39.612
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:50.953
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:51.110
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:51.232
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:51.279
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.069
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.125
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.189
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.261
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.343
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.439
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.484
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.490
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2025-05-29 01:25:55.547
+!MESSAGE IPackageFragmentRoot is missing, skipping javadoc/source attachment for project P/rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:27:10.047
+!MESSAGE Classpath changed for project: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:27:11.350
+!MESSAGE Classpath changed for project: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:27:11.350
+!MESSAGE Boot project ADDED: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:27:17.985
+!MESSAGE Classpath changed for project: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 01:27:17.985
+!MESSAGE Boot project REMOVED: rider-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 02:05:38.114
+!MESSAGE Classpath changed for project: user-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 02:05:38.115
+!MESSAGE Boot project ADDED: user-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 02:05:38.868
+!MESSAGE Classpath changed for project: user-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 02:05:57.967
+!MESSAGE Classpath changed for project: user-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-05-29 02:05:57.967
+!MESSAGE Boot project REMOVED: user-service

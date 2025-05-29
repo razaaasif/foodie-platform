@@ -17,4 +17,8 @@ public interface RestaurantService {
     RestaurantDTO findById(Long id);
 
     void delete(Long id);
+
+    void markOrderPreparing(Long orderId, Long restaurantId);
+
+    void markOrderPrepared(Long orderId, Long restaurantId);
 }

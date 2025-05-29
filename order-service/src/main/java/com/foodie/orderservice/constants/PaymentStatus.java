@@ -1,0 +1,20 @@
+package com.foodie.orderservice.constants;
+
+/**
+ * Created on 28/05/25.
+ *
+ * @author : aasif.raza
+ */
+public enum PaymentStatus {
+    SUCCESS,
+    FAILED;
+
+    public static PaymentStatus getPaymentStatusByName(String status) {
+        for (PaymentStatus payment : PaymentStatus.values()) {
+            if (payment.name().equalsIgnoreCase(status)) {
+                return payment;
+            }
+        }
+        throw new IllegalArgumentException("Payment status is not valid : " + status);
+    }
+}
