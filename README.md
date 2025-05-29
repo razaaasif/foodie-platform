@@ -24,6 +24,13 @@ This project provides a REST API-driven backend infrastructure that enables the 
 
 This service allows registering new users into the system via a RESTful API.
 
+### How to set up DB
+* There is `data.sql` in root path this must be executed.
+* data.sql contains all the neccessary information about data to getting started.
+* There is already user is create with Id 1 and 2 and 
+* restaurants are alread create with (1,2 and 3) Ids
+* 20 Menu items in total added in All restaurants
+
 ---
 
 ## 🚀 Endpoint
