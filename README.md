@@ -30,7 +30,7 @@ This service allows registering new users into the system via a RESTful API.
 * There is already user is create with Id 1 and 2 and 
 * restaurants are alread create with (1,2 and 3) Ids
 * 20 Menu items in total added in All restaurants
-
+* **kafka** must be running is your system or you can change kafka server through properties file
 ---
 
 ## 🚀 Endpoint
