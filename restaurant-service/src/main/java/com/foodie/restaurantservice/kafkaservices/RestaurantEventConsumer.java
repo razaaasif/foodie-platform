@@ -5,6 +5,7 @@ import com.foodie.restaurantservice.dto.OrderPaidEvent;
 import com.foodie.restaurantservice.dto.OrderPreparedEvent;
 import com.foodie.restaurantservice.entity.Order;
 import com.foodie.restaurantservice.repository.OrderRepository;
+import com.foodie.restaurantservice.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -27,21 +28,8 @@ public class RestaurantEventConsumer {
     private final OrderRepository orderRepository;
 
     @KafkaListener(topics = "order-prepare", groupId = "restaurant-service-group")
-    public void onOrderPaid(OrderPaidEvent event) {
-        log.debug("Received order to prepare: {}", event.orderId());
-
-        OrderPreparedEvent preparedEvent = new OrderPreparedEvent(event.orderId(), event.restaurantId(), OrderStatus.PREPARING);
-
-        kafkaTemplate.send("order-preparing", preparedEvent);
-        log.debug("Order preparing for  and event sent: {}", event);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        preparedEvent = new OrderPreparedEvent(event.orderId(), event.restaurantId(), OrderStatus.PREPARED);
-        kafkaTemplate.send("order-prepared", preparedEvent);
-        log.debug("Order prepared {}", event);
-
+    public void onOrderPaid(String data) {
+        OrderPaidEvent event = JsonUtils.fromJson(data, OrderPaidEvent.class);
+        log.info("Received order to prepare: {}", data);
     }
 }

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeliverOrderRequest {
-    private String orderId;
+    private Long orderId;
     private String riderId;
-    private String deliveryTime;
 }

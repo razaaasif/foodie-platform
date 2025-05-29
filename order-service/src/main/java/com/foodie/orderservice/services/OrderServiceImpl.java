@@ -2,10 +2,7 @@ package com.foodie.orderservice.services;
 
 import com.foodie.orderservice.constants.OrderStatus;
 import com.foodie.orderservice.constants.PaymentStatus;
-import com.foodie.orderservice.dto.OrderItemDTO;
-import com.foodie.orderservice.dto.OrderPaidEvent;
-import com.foodie.orderservice.dto.OrderRequestDTO;
-import com.foodie.orderservice.dto.OrderResponseDTO;
+import com.foodie.orderservice.dto.*;
 import com.foodie.orderservice.entity.Order;
 import com.foodie.orderservice.entity.OrderItem;
 import com.foodie.orderservice.exception.OrderException;
@@ -13,6 +10,7 @@ import com.foodie.orderservice.kafkaserivces.KafkaOrderProducer;
 import com.foodie.orderservice.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,29 +25,31 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final KafkaOrderProducer kafkaOrderProducer;
 
     @Override
-    @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO orderRequest, Long userId) {
-        // Calculate total amount
+        // 1. Calculate total amount
         BigDecimal totalAmount = orderRequest.getItems().stream()
                 .map(item -> item.getPricePerItem().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Create order
+        // 2. Create order object
         Order order = Order.builder()
                 .userId(userId)
                 .restaurantId(orderRequest.getRestaurantId())
                 .status(OrderStatus.CREATED)
                 .totalAmount(totalAmount)
                 .orderTime(LocalDateTime.now())
+                .paymentMethod(orderRequest.getPaymentMethod())
                 .deliveryAddress(orderRequest.getDeliveryAddress())
+                .paymentStatus(PaymentStatus.NOT_STARTED)
                 .build();
 
-        // Add order items
+        // 3. Create and set items before saving
         List<OrderItem> orderItems = orderRequest.getItems().stream()
                 .map(itemDto -> OrderItem.builder()
                         .order(order)
@@ -61,23 +61,41 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
 
         order.setItems(orderItems);
-        Order savedOrder = orderRepository.save(order);
 
-        // Send event to Kafka for payment processing
-        kafkaOrderProducer.sendOrderCreatedEvent(savedOrder);
+        try {
+            // 4. Save order along with items (cascade should handle it)
+            Order savedOrder = orderRepository.saveAndFlush(order);
 
-        return mapToOrderResponseDto(savedOrder);
+            // 5. Send Kafka event (preferably async)
+            kafkaOrderProducer.sendOrderCreatedEvent(mapToOrderCreated(savedOrder));
+
+            return mapToOrderResponseDto(savedOrder);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to create order", e);
+        }
+    }
+
+    private OrderCreatedEvent mapToOrderCreated(Order savedOrder) {
+        return OrderCreatedEvent.builder()
+                .orderId(savedOrder.getId())
+                .userId(savedOrder.getUserId())
+                .totalAmount(savedOrder.getTotalAmount())
+                .paymentMethod(savedOrder.getPaymentMethod())
+                .items(savedOrder.getItems().stream()
+                        .map(orderItem -> new OrderCreatedEvent.OrderItemEvent(
+                                orderItem.getMenuItemId(),
+                                orderItem.getQuantity(),
+                                orderItem.getPricePerItem()
+                        ))
+                        .toList())
+                .build();
     }
 
     @Override
-    public OrderResponseDTO getOrderById(Long orderId, Long userId) throws OrderException {
+    public OrderResponseDTO getOrderById(Long orderId) throws OrderException {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> OrderException.notFound(orderId));
-
-        if (!order.getUserId().equals(userId)) {
-            throw OrderException.unauthorized("You are not authorized to view this order");
-        }
-
         return mapToOrderResponseDto(order);
     }
 
@@ -88,24 +106,22 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     @Transactional
-    public OrderResponseDTO updateOrderStatus(Long orderId, OrderStatus status, Long userId) throws OrderException {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> OrderException.notFound(orderId));
-
-        if (!order.getUserId().equals(userId)) {
-            throw OrderException.unauthorized("You are not authorized to update this order");
-        }
-
-        order.setStatus(status);
-
-        if (status == OrderStatus.DELIVERED) {
-            order.setDeliveryTime(LocalDateTime.now());
-        }
-
-        Order updatedOrder = orderRepository.save(order);
-        return mapToOrderResponseDto(updatedOrder);
+    @Override
+    public void updateOrderStatus(OrderUpdateDTO orderDTO) {
+        orderRepository.findById(orderDTO.getOrderId()).ifPresent(order -> {
+            if (orderDTO.getOrderStatus() == OrderStatus.RIDER_ASSIGN) {
+                order.setRiderId(orderDTO.getRiderId());
+            } else if (orderDTO.getOrderStatus() == OrderStatus.DELIVERED) {
+                order.setDeliveryTime(LocalDateTime.now());
+            }
+            order.setStatus(orderDTO.getOrderStatus());
+            orderRepository.save(order);
+            if (orderDTO.getOrderStatus() == OrderStatus.PREPARED) {
+                this.kafkaOrderProducer.sendOrderPreparedEvent(new OrderPreparedEvent(order.getId(), order.getRestaurantId(), order.getStatus(), order.getDeliveryAddress()));
+            }
+            log.info("Order {} status updated to {}", order.getId(), orderDTO.getOrderStatus());
+        });
     }
 
     @Override
@@ -130,19 +146,56 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    public void updateOrderPaymentStatus(Long orderId, PaymentStatus paymentStatus) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> OrderException.notFound(orderId));
+    public void updateOrderPaymentStatus(PaymentStatusEventDTO paymentStatus) {
+        try {
+            Order order = orderRepository.findById(paymentStatus.getOrderId())
+                    .orElseThrow(() -> {
+                        log.warn("Order not found for ID: {}", paymentStatus.getOrderId());
+                        return OrderException.notFound(paymentStatus.getOrderId());
+                    });
 
-        if (PaymentStatus.SUCCESS == paymentStatus) {
-            order.setStatus(OrderStatus.PAYMENT_COMPLETED);
-            kafkaOrderProducer.sendOrderPaidEvent(new OrderPaidEvent(order.getId(), order.getRestaurantId(), order.getUserId(), order.getTotalAmount()));
+            order.setPaymentStatus(paymentStatus.getPaymentStatus());
 
-        } else {
-            order.setStatus(OrderStatus.PAYMENT_FAILED);
+            switch (paymentStatus.getPaymentStatus()) {
+                case SUCCESS:
+                    order.setStatus(OrderStatus.PAYMENT_COMPLETED);
+                    order.setTransactionId(paymentStatus.getTransactionId());
+                    order.setPaymentTime(LocalDateTime.now());
+                    orderRepository.save(order);
+
+                    kafkaOrderProducer.sendOrderPaidEvent(
+                            new OrderPaidEvent(order.getId(), order.getRestaurantId(), order.getUserId(), order.getTotalAmount())
+                    );
+                    log.info("Payment successful for orderId={}, transactionId={}", order.getId(), order.getTransactionId());
+                    break;
+
+                case INITIATED:
+                    order.setStatus(OrderStatus.PAYMENT_PENDING);
+                    orderRepository.save(order);
+                    log.info("Payment initiated for orderId={}", order.getId());
+                    break;
+
+                case FAILED:
+                    order.setStatus(OrderStatus.PAYMENT_FAILED_CANCELLED);
+                    orderRepository.save(order);
+                    log.info("Payment failed for orderId={}", order.getId());
+                    break;
+
+                default:
+                    log.warn("Unhandled payment status: {}", paymentStatus.getPaymentStatus());
+            }
+
+        } catch (Exception ex) {
+            log.error("Error updating payment status for orderId={}", paymentStatus.getOrderId(), ex);
+            throw ex;
         }
+    }
 
-        orderRepository.save(order);
+
+    @Override
+    public String getAssignedRiderForOrder(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> OrderException.notFound(orderId)).getRiderId();
     }
 
     private OrderResponseDTO mapToOrderResponseDto(Order order) {
@@ -160,8 +213,12 @@ public class OrderServiceImpl implements OrderService {
                 .deliveryTime(order.getDeliveryTime())
                 .deliveryAddress(order.getDeliveryAddress())
                 .riderId(order.getRiderId())
-                .paymentId(order.getPaymentId())
+                .transactionId(order.getTransactionId())
                 .items(itemDtos)
+                .paymentStatus(order.getPaymentStatus())
+                .paymentTime(order.getPaymentTime() != null? order.getPaymentTime().toString():null)
+                .delivered(order.getStatus() == OrderStatus.DELIVERED)
+                .deliveredOn(order.getStatus() == OrderStatus.DELIVERED ? order.getUpdatedOn().toString() : null)
                 .build();
     }
 

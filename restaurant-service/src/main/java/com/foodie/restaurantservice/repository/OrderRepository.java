@@ -11,9 +11,4 @@ import java.util.List;
  * @author : aasif.raza
  */
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByUserId(Long userId);
-
-    List<Order> findByRestaurantId(Long restaurantId);
-
-    List<Order> findByRiderId(Long riderId);
 }

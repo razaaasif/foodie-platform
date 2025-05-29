@@ -2,8 +2,11 @@ package com.foodie.orderservice.entity;
 
 import com.foodie.orderservice.constants.OrderStatus;
 import com.foodie.orderservice.constants.PaymentMethod;
+import com.foodie.orderservice.constants.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,7 +17,7 @@ import java.util.List;
  *
  * @author : aasif.raza
  */
-@Entity(name="orders")
+@Entity(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,6 +38,10 @@ public class Order {
     @Column(nullable = false)
     private OrderStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentStatus paymentStatus;
+
     @Column(nullable = false)
     private BigDecimal totalAmount;
 
@@ -43,7 +50,8 @@ public class Order {
 
     @Column
     private LocalDateTime deliveryTime;
-
+    @Column
+    private LocalDateTime paymentTime;
     @Column(nullable = false)
     private String deliveryAddress;
 
@@ -51,13 +59,19 @@ public class Order {
     private List<OrderItem> items;
 
     @Column
-    private Long riderId;
+    private String riderId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    @Column(nullable = false)
-    private String paymentId;
+    private String transactionId;
 
+    @Column
+    @CreationTimestamp
+    private LocalDateTime createdOn;
 
+    @Column
+    @UpdateTimestamp
+    private LocalDateTime updatedOn;
 }

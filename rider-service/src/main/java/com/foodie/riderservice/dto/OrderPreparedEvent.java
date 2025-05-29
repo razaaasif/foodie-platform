@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderPreparedEvent {
-    private String orderId;
+    private Long orderId;
     private String restaurantId;
     private OrderStatus status;
+    private String deliveryAddress;
 }

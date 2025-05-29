@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RiderAssignedEvent {
-    private String orderId;
+    private Long orderId;
     private String riderId;
     private String eta;
+    private String deliveryAddress;
 }

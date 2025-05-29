@@ -28,18 +28,21 @@ public class RazorpayPaymentProcessor implements PaymentProcessor {
         Payment payment = new Payment();
         payment.setOrderId(request.getOrderId());
         payment.setAmount(request.getAmount());
-        payment.setMethod(PaymentMethod.RAZORPAY);  // <-- change per service
+        payment.setMethod(PaymentMethod.RAZORPAY);
         payment.setStatus(PaymentStatus.INITIATED);
         payment.setCreatedAt(LocalDateTime.now());
         payment.setTransactionId(UUID.randomUUID().toString());
         paymentRepository.save(payment);
 
-        return new PaymentInitiateResponse(payment.getTransactionId(), "/razorpay/redirect",PaymentMethod.RAZORPAY);  // <-- change URL per service
+        return new PaymentInitiateResponse(payment.getOrderId(),payment.getTransactionId(), "/razor-pe/redirect",PaymentMethod.BHARAT_PE);
     }
 
     @Override
-    public String generateRedirectUrl(String transactionId) {
-        return "/razorpay/redirect?transactionId=" + transactionId;  // <-- change URL per service
+    public String generateRedirectUrl(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        return "/razor-pe/redirect?transactionId=" + payment.getTransactionId() + "?amount="+payment.getAmount();
     }
 
     @Override

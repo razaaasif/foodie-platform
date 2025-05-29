@@ -1,11 +1,16 @@
 package com.foodie.orderservice.kafkaserivces;
 
+import com.foodie.orderservice.dto.OrderCreatedEvent;
 import com.foodie.orderservice.dto.OrderPaidEvent;
+import com.foodie.orderservice.dto.OrderPreparedEvent;
 import com.foodie.orderservice.dto.PaymentRequestDTO;
 import com.foodie.orderservice.entity.Order;
+import com.foodie.orderservice.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class KafkaOrderProducer {
     @Value("${kafka.topic.order-created}")
     private String orderCreatedTopicName;
@@ -27,24 +33,33 @@ public class KafkaOrderProducer {
 
     @Value("${kafka.topic.order-prepare}")
     private String orderPrepareTopicName;
+
+    @Value("${kafka.topic.order-assign}")
+    private String orderAssignTopicName;
+
     private final KafkaTemplate<String, Object> kafkaTemplate;
-
-    public void sendOrderCreatedEvent(Order order) {
-        PaymentRequestDTO paymentRequest = PaymentRequestDTO.builder()
-                .orderId(order.getId())
-                .userId(order.getUserId())
-                .amount(order.getTotalAmount())
-                .paymentMethod(order.getPaymentMethod()) // Default
-                .build();
-
-        kafkaTemplate.send(orderCreatedTopicName, paymentRequest);
+    @Async("kafkaExecutor")
+    public void sendOrderCreatedEvent(OrderCreatedEvent order) {
+        try {
+            log.info("sendOrderCreatedEvent() Thread : {}" ,Thread.currentThread().getName());
+            kafkaTemplate.send(orderCreatedTopicName, JsonUtils.toJson(order));
+        } catch (Exception ex) {
+            log.warn("Kafka event sending failed", ex);
+        }
     }
 
+    @Async("kafkaExecutor")
+    public void sendOrderPreparedEvent(OrderPreparedEvent order) {
+        kafkaTemplate.send(orderAssignTopicName, JsonUtils.toJson(order));
+    }
+
+    @Async("kafkaExecutor")
     public void sendOrderStatusUpdatedEvent(Long orderId, String status) {
         kafkaTemplate.send(orderStatusUpdatedTopicName, String.valueOf(orderId), status);
     }
 
+    @Async("kafkaExecutor")
     public void sendOrderPaidEvent(OrderPaidEvent orderPaidEvent) {
-        kafkaTemplate.send(orderPrepareTopicName, orderPaidEvent);
+        kafkaTemplate.send(orderPrepareTopicName, JsonUtils.toJson(orderPaidEvent));
     }
 }

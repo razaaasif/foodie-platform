@@ -8,5 +8,6 @@ package com.foodie.paymentservice.constants;
 public enum PaymentStatus {
     INITIATED,
     FAILED,
-    SUCCESS
+    SUCCESS,
+    NOT_STARTED
 }

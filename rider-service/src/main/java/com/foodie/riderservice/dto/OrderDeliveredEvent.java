@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class OrderDeliveredEvent {
-    private String orderId;
+    private Long orderId;
     private String riderId;
     private String deliveryTime;
 }

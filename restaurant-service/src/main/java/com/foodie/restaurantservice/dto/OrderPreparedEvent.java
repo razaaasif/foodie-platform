@@ -1,5 +1,7 @@
 package com.foodie.restaurantservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.foodie.restaurantservice.constants.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +18,6 @@ import lombok.NoArgsConstructor;
 public class OrderPreparedEvent {
     private Long orderId;
     private Long restaurantId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private OrderStatus status;
 }

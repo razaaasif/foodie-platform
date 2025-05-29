@@ -11,6 +11,6 @@ import com.foodie.paymentservice.dto.PaymentInitiateResponse;
  */
 public interface PaymentProcessor {
     PaymentInitiateResponse initiatePayment(PaymentInitiateRequest request);
-    String generateRedirectUrl(String transactionId);
+    String generateRedirectUrl(Long orderId);
     String confirmPayment(PaymentConfirmationRequest request);
 }

@@ -34,12 +34,15 @@ public class PhonePePaymentProcessor implements PaymentProcessor {
         payment.setTransactionId(UUID.randomUUID().toString());
         paymentRepository.save(payment);
 
-        return new PaymentInitiateResponse(payment.getTransactionId(), "/phone-pe/redirect",PaymentMethod.PHONE_PE);
+        return new PaymentInitiateResponse(payment.getOrderId(),payment.getTransactionId(), "/phone-pe/redirect",PaymentMethod.BHARAT_PE);
     }
 
     @Override
-    public String generateRedirectUrl(String transactionId) {
-        return "/phone-pe/redirect?transactionId=" + transactionId;
+    public String generateRedirectUrl(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        return "/phone-pe/redirect?transactionId=" + payment.getTransactionId() + "?amount="+payment.getAmount();
     }
 
     @Override

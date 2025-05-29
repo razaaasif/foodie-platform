@@ -1,5 +1,6 @@
 package com.foodie.riderservice.services;
 
+import com.foodie.riderservice.dto.JsonUtils;
 import com.foodie.riderservice.dto.OrderDeliveredEvent;
 import com.foodie.riderservice.dto.OrderPreparedEvent;
 import com.foodie.riderservice.dto.RiderAssignedEvent;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -20,32 +22,36 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RiderServiceImpl implements RiderService {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
-
+    private final KafkaTemplate<String, String> kafkaTemplate;
     @Override
     public void assignRider(OrderPreparedEvent event) {
         String riderId = UUID.randomUUID().toString(); // mock assignment
         String eta = "15 minutes";
-
-        RiderAssignedEvent riderAssignedEvent = new RiderAssignedEvent(
-                event.getOrderId(), riderId, eta
-        );
+        String riderAssignedEvent = JsonUtils.toJson(new RiderAssignedEvent(
+                event.getOrderId(), riderId, eta,event.getDeliveryAddress()
+        ));
 
         log.info("Rider assigned: {}", riderAssignedEvent);
-        kafkaTemplate.send("rider-assigned", riderAssignedEvent);
+        try {
+            kafkaTemplate.send("rider-assigned", riderAssignedEvent);
+        } catch (Exception e) {
+            log.error("assignRider Error while assigning rider");
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void deliverOrder(String orderId, String riderId, String deliveryTime) {
-        OrderDeliveredEvent deliveredEvent = new OrderDeliveredEvent(orderId, riderId, deliveryTime);
+    public void takeOrder(Long orderId, String riderId) {
+        String deliveredEvent = JsonUtils.toJson(new OrderDeliveredEvent(orderId, riderId, Instant.now().toString()));
+        log.info("Order order-out-for-delivery: {}", deliveredEvent);
+        kafkaTemplate.send("order-out-for-delivery", deliveredEvent);
+    }
+
+    @Override
+    public void deliverOrder(Long orderId, String riderId) {
+        String deliveredEvent = JsonUtils.toJson(new OrderDeliveredEvent(orderId, riderId, Instant.now().toString()));
         log.info("Order delivered: {}", deliveredEvent);
         kafkaTemplate.send("order-delivered", deliveredEvent);
     }
 
-    @Override
-    public void takeOrder(String orderId, String riderId, String deliveryTime) {
-        OrderDeliveredEvent deliveredEvent = new OrderDeliveredEvent(orderId, riderId, deliveryTime);
-        log.info("Order order-out-for-delivery: {}", deliveredEvent);
-        kafkaTemplate.send("order-out-for-delivery", deliveredEvent);
-    }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrderDTO {
-
     @NotNull(message = "Customer ID is required")
     private Long customerId;
 

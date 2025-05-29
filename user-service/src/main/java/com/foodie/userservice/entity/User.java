@@ -11,7 +11,7 @@ import lombok.*;
  *
  * @author : aasif.raza
  */
-@Entity
+@Entity(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor

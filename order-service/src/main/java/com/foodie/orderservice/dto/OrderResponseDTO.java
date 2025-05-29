@@ -1,6 +1,7 @@
 package com.foodie.orderservice.dto;
 
 import com.foodie.orderservice.constants.OrderStatus;
+import com.foodie.orderservice.constants.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +29,11 @@ public class OrderResponseDTO {
     private LocalDateTime orderTime;
     private LocalDateTime deliveryTime;
     private String deliveryAddress;
-    private Long riderId;
-    private String paymentId;
+    private String riderId;
+    private String transactionId;
+    private PaymentStatus paymentStatus;
+    private String paymentTime;
+    private String deliveredOn;
+    private boolean delivered;
     private List<OrderItemDTO> items;
 }

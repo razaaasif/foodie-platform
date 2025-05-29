@@ -51,7 +51,7 @@ public class Order {
     private List<OrderItem> items;
 
     @Column
-    private Long riderId;
+    private String riderId;
 
 
 

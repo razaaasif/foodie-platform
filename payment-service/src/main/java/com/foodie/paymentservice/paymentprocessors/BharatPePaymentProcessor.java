@@ -34,12 +34,15 @@ public class BharatPePaymentProcessor implements PaymentProcessor {
         payment.setTransactionId(UUID.randomUUID().toString());
         paymentRepository.save(payment);
 
-        return new PaymentInitiateResponse(payment.getTransactionId(), "/bharat-pe/redirect",PaymentMethod.BHARAT_PE);
+        return new PaymentInitiateResponse(payment.getOrderId(),payment.getTransactionId(), "/bharat-pe/redirect",PaymentMethod.BHARAT_PE);
     }
 
     @Override
-    public String generateRedirectUrl(String transactionId) {
-        return "/bharat-pe/redirect?transactionId=" + transactionId;
+    public String generateRedirectUrl(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        return "/bharat-pe/redirect?transactionId=" + payment.getTransactionId();
     }
 
     @Override

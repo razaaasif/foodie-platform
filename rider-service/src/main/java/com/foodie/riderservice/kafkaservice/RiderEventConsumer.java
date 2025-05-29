@@ -1,5 +1,6 @@
 package com.foodie.riderservice.kafkaservice;
 
+import com.foodie.riderservice.dto.JsonUtils;
 import com.foodie.riderservice.dto.OrderPreparedEvent;
 import com.foodie.riderservice.services.RiderService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,10 @@ public class RiderEventConsumer {
 
     private final RiderService riderService;
 
-    @KafkaListener(topics = "order-prepared", groupId = "rider-service-group")
-    public void onOrderPrepared(OrderPreparedEvent event) {
-        log.info("Received OrderPreparedEvent: {}", event.getOrderId());
+    @KafkaListener(topics = "order-assign", groupId = "rider-service-group")
+    public void onOrderPrepared(String data) {
+        log.info("Received order-assign: {}", data);
+        OrderPreparedEvent event = JsonUtils.fromJson(data, OrderPreparedEvent.class);
         riderService.assignRider(event);
     }
 }

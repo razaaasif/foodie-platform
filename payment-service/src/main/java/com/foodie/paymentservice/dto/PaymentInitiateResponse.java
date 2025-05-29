@@ -16,6 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentInitiateResponse {
+    private Long orderId;
     private String transactionId;
     private String redirectUrl;
     private PaymentMethod paymentMethod;

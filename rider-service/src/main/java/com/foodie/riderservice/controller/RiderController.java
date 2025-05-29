@@ -2,13 +2,13 @@ package com.foodie.riderservice.controller;
 
 import com.foodie.riderservice.dto.DeliverOrderRequest;
 import com.foodie.riderservice.services.RiderService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
 
 /**
  * Created on 29/05/25.
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author : aasif.raza
  */
 @RestController
-@RequestMapping("/api/rider")
+@RequestMapping("/riders")
 @RequiredArgsConstructor
 @Slf4j
 public class RiderController {
@@ -25,12 +25,12 @@ public class RiderController {
 
     @PostMapping("/take-order")
     public ResponseEntity<String> outForDelivery(@RequestBody DeliverOrderRequest request) {
-        riderService.takeOrder(request.getOrderId(), request.getRiderId(), request.getDeliveryTime());
+        riderService.takeOrder(request.getOrderId(), request.getRiderId());
         return ResponseEntity.ok("Out for delivery");
     }
     @PostMapping("/deliver")
     public ResponseEntity<String> deliverOrder(@RequestBody DeliverOrderRequest request) {
-        riderService.deliverOrder(request.getOrderId(), request.getRiderId(), request.getDeliveryTime());
-        return ResponseEntity.ok("Delivery recorded successfully");
+        riderService.deliverOrder(request.getOrderId(), request.getRiderId());
+        return ResponseEntity.ok("Order delivered successfully!");
     }
 }

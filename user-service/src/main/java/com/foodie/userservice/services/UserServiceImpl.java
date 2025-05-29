@@ -2,10 +2,13 @@ package com.foodie.userservice.services;
 
 import com.foodie.userservice.dto.UserDTO;
 import com.foodie.userservice.entity.User;
+import com.foodie.userservice.exception.DuplicateUserException;
 import com.foodie.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created on 29/05/25.
@@ -21,6 +24,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO registerUser(UserDTO dto) {
+        Optional<User> existingUser = userRepository.findByEmail(dto.getEmail());
+        if (existingUser.isPresent()) {
+            throw new DuplicateUserException("A user with this email already exists");
+        }
+
         User user = new User(null, dto.getName(), dto.getEmail(), false);
         user = userRepository.save(user);
 

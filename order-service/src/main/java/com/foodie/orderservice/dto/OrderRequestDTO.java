@@ -1,5 +1,6 @@
 package com.foodie.orderservice.dto;
 
+import com.foodie.orderservice.constants.PaymentMethod;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,4 +31,7 @@ public class OrderRequestDTO {
 
     @NotNull(message = "Delivery address cannot be null")
     private String deliveryAddress;
+
+    @NotNull(message = "Payment method can not be null")
+    private PaymentMethod paymentMethod;
 }

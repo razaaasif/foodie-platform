@@ -1,6 +1,7 @@
 package com.foodie.riderservice.services;
 
 import com.foodie.riderservice.dto.OrderPreparedEvent;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Created on 29/05/25.
@@ -9,7 +10,7 @@ import com.foodie.riderservice.dto.OrderPreparedEvent;
  */
 public interface RiderService {
     void assignRider(OrderPreparedEvent event) ;
-    void deliverOrder(String orderId, String riderId, String deliveryTime);
+    void deliverOrder(Long orderId, String riderId);
 
-    void takeOrder(String orderId, String riderId, String deliveryTime);
+    void takeOrder(Long orderId, String riderId);
 }

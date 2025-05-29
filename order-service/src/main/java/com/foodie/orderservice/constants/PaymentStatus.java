@@ -7,7 +7,7 @@ package com.foodie.orderservice.constants;
  */
 public enum PaymentStatus {
     SUCCESS,
-    FAILED;
+    FAILED, INITIATED, NOT_STARTED;
 
     public static PaymentStatus getPaymentStatusByName(String status) {
         for (PaymentStatus payment : PaymentStatus.values()) {
