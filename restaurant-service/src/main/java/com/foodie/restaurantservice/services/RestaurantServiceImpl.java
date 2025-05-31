@@ -1,7 +1,7 @@
 package com.foodie.restaurantservice.services;
 
 import com.foodie.restaurantservice.constants.OrderStatus;
-import com.foodie.restaurantservice.dto.OrderPreparedEvent;
+import com.foodie.restaurantservice.dto.OrderStateChangeEvent;
 import com.foodie.restaurantservice.dto.RestaurantDTO;
 import com.foodie.restaurantservice.entity.Restaurant;
 import com.foodie.restaurantservice.repository.RestaurantRepository;
@@ -52,15 +52,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void markOrderPreparing( OrderPreparedEvent preparedEvent) {
-        preparedEvent.setStatus(OrderStatus.PREPARING);
-        kafkaTemplate.send("order-preparing", JsonUtils.toJson(preparedEvent));
+    public void markOrderPreparing( OrderStateChangeEvent orderStateChange) {
+        orderStateChange.setStatus(OrderStatus.PREPARING);
+        kafkaTemplate.send("order-preparing", JsonUtils.toJson(orderStateChange));
     }
 
     @Override
-    public void markOrderPrepared( OrderPreparedEvent preparedEvent) {
-        preparedEvent.setStatus(OrderStatus.PREPARED);
-        kafkaTemplate.send("order-prepared", JsonUtils.toJson(preparedEvent));
+    public void markOrderPrepared( OrderStateChangeEvent orderStateChange) {
+        orderStateChange.setStatus(OrderStatus.PREPARED);
+        kafkaTemplate.send("order-prepared", JsonUtils.toJson(orderStateChange));
+    }
+
+    @Override
+    public void markOrderConfirm(OrderStateChangeEvent orderStateChange) {
+        orderStateChange.setStatus(OrderStatus.RESTAURANT_CONFIRMED);
+        kafkaTemplate.send("restaurant-confirm", JsonUtils.toJson(orderStateChange));
     }
 
     private RestaurantDTO mapToDTO(Restaurant r) {

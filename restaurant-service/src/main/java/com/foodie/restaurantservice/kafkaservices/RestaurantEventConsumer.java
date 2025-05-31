@@ -1,9 +1,6 @@
 package com.foodie.restaurantservice.kafkaservices;
 
-import com.foodie.restaurantservice.constants.OrderStatus;
 import com.foodie.restaurantservice.dto.OrderPaidEvent;
-import com.foodie.restaurantservice.dto.OrderPreparedEvent;
-import com.foodie.restaurantservice.entity.Order;
 import com.foodie.restaurantservice.repository.OrderRepository;
 import com.foodie.restaurantservice.util.JsonUtils;
 import lombok.RequiredArgsConstructor;

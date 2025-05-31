@@ -1,10 +1,9 @@
 package com.foodie.restaurantservice.controller;
 
-import com.foodie.restaurantservice.dto.OrderPreparedEvent;
+import com.foodie.restaurantservice.dto.OrderStateChangeEvent;
 import com.foodie.restaurantservice.dto.RestaurantDTO;
 import com.foodie.restaurantservice.services.RestaurantService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,15 +43,21 @@ public class RestaurantController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/orders/confirm")
+    public ResponseEntity<Void> markOrderConfirm(@Valid @RequestBody OrderStateChangeEvent orderStateChange) {
+        service.markOrderConfirm(orderStateChange);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/orders/preparing")
-    public ResponseEntity<Void> markOrderPreparing(@Valid @RequestBody OrderPreparedEvent preparedEvent) {
-        service.markOrderPreparing(preparedEvent);
+    public ResponseEntity<Void> markOrderPreparing(@Valid @RequestBody OrderStateChangeEvent orderStateChange) {
+        service.markOrderPreparing(orderStateChange);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/orders/prepared")
-    public ResponseEntity<Void> markOrderPrepared(@Valid @RequestBody OrderPreparedEvent preparedEvent) {
-        service.markOrderPrepared(preparedEvent);
+    public ResponseEntity<Void> markOrderPrepared(@Valid @RequestBody OrderStateChangeEvent orderStateChange) {
+        service.markOrderPrepared(orderStateChange);
         return ResponseEntity.ok().build();
     }
 }

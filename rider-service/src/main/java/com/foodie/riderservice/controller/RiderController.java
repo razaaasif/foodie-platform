@@ -23,7 +23,7 @@ public class RiderController {
 
     private final RiderService riderService;
 
-    @PostMapping("/take-order")
+    @PostMapping("/pickup")
     public ResponseEntity<String> outForDelivery(@RequestBody DeliverOrderRequest request) {
         riderService.takeOrder(request.getOrderId(), request.getRiderId());
         return ResponseEntity.ok("Out for delivery");

@@ -1,7 +1,8 @@
 package com.foodie.restaurantservice.services;
 
-import com.foodie.restaurantservice.dto.OrderPreparedEvent;
+import com.foodie.restaurantservice.dto.OrderStateChangeEvent;
 import com.foodie.restaurantservice.dto.RestaurantDTO;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -19,7 +20,9 @@ public interface RestaurantService {
 
     void delete(Long id);
 
-    void markOrderPreparing( OrderPreparedEvent preparedEvent);
+    void markOrderPreparing( OrderStateChangeEvent preparedEvent);
 
-    void markOrderPrepared( OrderPreparedEvent preparedEvent);
+    void markOrderPrepared( OrderStateChangeEvent preparedEvent);
+
+    void markOrderConfirm(OrderStateChangeEvent orderStateChange);
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderPreparedEvent {
+public class OrderStateChangeEvent {
     private Long orderId;
     private Long restaurantId;
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -3,8 +3,6 @@ package com.foodie.orderservice.kafkaserivces;
 import com.foodie.orderservice.dto.OrderCreatedEvent;
 import com.foodie.orderservice.dto.OrderPaidEvent;
 import com.foodie.orderservice.dto.OrderPreparedEvent;
-import com.foodie.orderservice.dto.PaymentRequestDTO;
-import com.foodie.orderservice.entity.Order;
 import com.foodie.orderservice.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

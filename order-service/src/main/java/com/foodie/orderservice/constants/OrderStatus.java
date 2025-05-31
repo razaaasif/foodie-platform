@@ -1,5 +1,7 @@
 package com.foodie.orderservice.constants;
 
+import java.util.EnumSet;
+
 /**
  * Created on 28/05/25.
  *
@@ -10,16 +12,20 @@ public enum OrderStatus {
     PAYMENT_PENDING,
     PAYMENT_COMPLETED,
     PAYMENT_FAILED,
+    PAYMENT_FAILED_CANCELLED,
     RESTAURANT_CONFIRMED,
     PREPARING,
-    READY_FOR_PICKUP,
+    PREPARED,
+    RIDER_ASSIGN,
     PICKED_UP,
     ON_THE_WAY,
     DELIVERED,
-    RIDER_ASSIGN,
-    PREPARED, OUT_FOR_DELIVERY,
-    CANCELLED,
-    PAYMENT_FAILED_CANCELLED,
+    CANCELLED, READY_TO_PICK_UP;
 
+    private static final EnumSet<OrderStatus> deadState =
+            EnumSet.of(DELIVERED, CANCELLED, PAYMENT_FAILED_CANCELLED);
 
+    public static boolean isTerminatedState(OrderStatus status) {
+        return deadState.contains(status);
+    }
 }
