@@ -1,7 +1,6 @@
 package com.foodie.riderservice.services;
 
-import com.foodie.riderservice.dto.OrderPreparedEvent;
-import jakarta.validation.constraints.NotNull;
+import com.foodie.commons.dto.OrderPreparedEvent;
 
 /**
  * Created on 29/05/25.

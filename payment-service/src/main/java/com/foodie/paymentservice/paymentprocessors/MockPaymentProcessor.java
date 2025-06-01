@@ -1,14 +1,13 @@
 package com.foodie.paymentservice.paymentprocessors;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
-import com.foodie.paymentservice.constants.PaymentStatus;
+import com.foodie.commons.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentStatus;
 import com.foodie.paymentservice.dto.PaymentConfirmationRequest;
 import com.foodie.paymentservice.dto.PaymentInitiateRequest;
 import com.foodie.paymentservice.dto.PaymentInitiateResponse;
 import com.foodie.paymentservice.entity.Payment;
 import com.foodie.paymentservice.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

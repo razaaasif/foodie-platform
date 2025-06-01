@@ -1,7 +1,7 @@
 package com.foodie.riderservice.kafkaservice;
 
-import com.foodie.riderservice.dto.JsonUtils;
-import com.foodie.riderservice.dto.OrderPreparedEvent;
+import com.foodie.commons.dto.OrderPreparedEvent;
+import com.foodie.commons.utils.JsonUtils;
 import com.foodie.riderservice.services.RiderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

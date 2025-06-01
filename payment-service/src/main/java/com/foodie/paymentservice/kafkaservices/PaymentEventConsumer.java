@@ -1,7 +1,9 @@
 package com.foodie.paymentservice.kafkaservices;
 
 
-import com.foodie.paymentservice.constants.PaymentStatus;
+import com.foodie.commons.constants.PaymentStatus;
+import com.foodie.commons.dto.OrderCreatedEvent;
+import com.foodie.commons.dto.PaymentStatusUpdateEventDTO;
 import com.foodie.paymentservice.dto.*;
 import com.foodie.paymentservice.services.PaymentService;
 import com.foodie.paymentservice.utils.JsonUtils;
@@ -38,7 +40,7 @@ public class PaymentEventConsumer {
         PaymentInitiateResponse response = paymentService.initiatePayment(request);
         log.debug("onOrderCreated() initiation response :{}",JsonUtils.toJson(response));
         try {
-            PaymentStatusUpdatedEvent paymentStatusUpdatedEvent = new PaymentStatusUpdatedEvent();
+            PaymentStatusUpdateEventDTO paymentStatusUpdatedEvent = new PaymentStatusUpdateEventDTO();
             paymentStatusUpdatedEvent.setOrderId(request.getOrderId());
             paymentStatusUpdatedEvent.setPaymentStatus(PaymentStatus.INITIATED);
             paymentStatusUpdatedEvent.setTransactionId(response.getTransactionId());

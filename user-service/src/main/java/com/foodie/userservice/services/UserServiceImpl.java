@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateUserException("A user with this email already exists");
         }
 
-        User user = new User(null, dto.getName(), dto.getEmail(), false);
+        User user = new User(dto.getName(), dto.getEmail(), true);
         user = userRepository.save(user);
 
         dto.setId(user.getId());

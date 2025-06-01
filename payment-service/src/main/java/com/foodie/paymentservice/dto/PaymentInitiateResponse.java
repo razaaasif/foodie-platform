@@ -1,6 +1,6 @@
 package com.foodie.paymentservice.dto;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

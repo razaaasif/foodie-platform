@@ -1,10 +1,14 @@
 package com.foodie.orderservice.kafkaserivces;
 
-import com.foodie.orderservice.constants.OrderStatus;
+import com.foodie.commons.constants.OrderStatus;
+import com.foodie.commons.dto.OrderDeliveredEvent;
+import com.foodie.commons.dto.OrderPreparedEvent;
+import com.foodie.commons.dto.PaymentStatusUpdateEventDTO;
+import com.foodie.commons.dto.RiderAssignedEvent;
+import com.foodie.commons.utils.JsonUtils;
 import com.foodie.orderservice.dto.*;
 import com.foodie.orderservice.repository.OrderRepository;
 import com.foodie.orderservice.services.OrderService;
-import com.foodie.orderservice.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -28,7 +32,7 @@ public class KafkaOrderConsumer {
     public void consumePaymentStatus(String message) {
         log.info("consumePaymentStatus() Received payment status: {}", message);
         try {
-            PaymentStatusEventDTO event = JsonUtils.fromJson(message, PaymentStatusEventDTO.class);
+            PaymentStatusUpdateEventDTO event = JsonUtils.fromJson(message, PaymentStatusUpdateEventDTO.class);
             orderService.updateOrderPaymentStatus(event);
         } catch (Exception e) {
             log.error("Error processing payment status event", e);

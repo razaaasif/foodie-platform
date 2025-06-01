@@ -1,9 +1,10 @@
 package com.foodie.riderservice.services;
 
-import com.foodie.riderservice.dto.JsonUtils;
-import com.foodie.riderservice.dto.OrderDeliveredEvent;
-import com.foodie.riderservice.dto.OrderPreparedEvent;
-import com.foodie.riderservice.dto.RiderAssignedEvent;
+
+import com.foodie.commons.dto.OrderDeliveredEvent;
+import com.foodie.commons.dto.OrderPreparedEvent;
+import com.foodie.commons.dto.RiderAssignedEvent;
+import com.foodie.commons.utils.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

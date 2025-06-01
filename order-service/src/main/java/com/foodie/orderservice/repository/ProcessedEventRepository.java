@@ -1,6 +1,6 @@
 package com.foodie.orderservice.repository;
 
-import com.foodie.orderservice.constants.OrderStatus;
+import com.foodie.commons.constants.OrderStatus;
 import com.foodie.orderservice.entity.ProcessedEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
 

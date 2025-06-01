@@ -1,8 +1,8 @@
 package com.foodie.orderservice.entity;
 
-import com.foodie.orderservice.constants.OrderStatus;
-import com.foodie.orderservice.constants.PaymentMethod;
-import com.foodie.orderservice.constants.PaymentStatus;
+import com.foodie.commons.constants.OrderStatus;
+import com.foodie.commons.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

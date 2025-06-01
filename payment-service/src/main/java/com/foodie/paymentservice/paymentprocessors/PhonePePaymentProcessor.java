@@ -1,7 +1,7 @@
 package com.foodie.paymentservice.paymentprocessors;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
-import com.foodie.paymentservice.constants.PaymentStatus;
+import com.foodie.commons.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentStatus;
 import com.foodie.paymentservice.dto.PaymentConfirmationRequest;
 import com.foodie.paymentservice.dto.PaymentInitiateRequest;
 import com.foodie.paymentservice.dto.PaymentInitiateResponse;

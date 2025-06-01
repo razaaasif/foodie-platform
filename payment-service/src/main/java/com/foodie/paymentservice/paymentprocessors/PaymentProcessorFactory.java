@@ -1,6 +1,6 @@
 package com.foodie.paymentservice.paymentprocessors;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

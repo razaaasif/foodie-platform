@@ -1,7 +1,7 @@
 package com.foodie.paymentservice.entity;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
-import com.foodie.paymentservice.constants.PaymentStatus;
+import com.foodie.commons.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

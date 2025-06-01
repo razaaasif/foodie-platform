@@ -1,6 +1,10 @@
 package com.foodie.orderservice.services;
 
-import com.foodie.orderservice.constants.OrderStatus;
+import com.foodie.commons.constants.OrderStatus;
+import com.foodie.commons.dto.OrderPaidEvent;
+import com.foodie.commons.dto.OrderPreparedEvent;
+import com.foodie.commons.dto.PaymentStatusUpdateEventDTO;
+import com.foodie.commons.utils.JsonUtils;
 import com.foodie.orderservice.dto.*;
 import com.foodie.orderservice.entity.Order;
 import com.foodie.orderservice.entity.OrderItem;
@@ -12,7 +16,6 @@ import com.foodie.orderservice.mappers.OrderMapper;
 import com.foodie.orderservice.repository.OrderRepository;
 import com.foodie.orderservice.repository.ProcessedEventRepository;
 import com.foodie.orderservice.util.TransactionCallbackUtils;
-import com.foodie.orderservice.utils.JsonUtils;
 import com.foodie.orderservice.validators.OrderStatusTransitionValidator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -40,7 +43,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderResponseDTO createOrder(OrderRequestDTO orderRequest, Long userId) {
-
         BigDecimal totalAmount = calculateTotalAmount(orderRequest);
         Order order = OrderMapper.createOrderFromOrderRequest(orderRequest, userId, totalAmount);
         List<OrderItem> orderItems = createOrderItem(orderRequest, order);
@@ -56,7 +58,6 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Failed to create order", e);
         }
     }
-
 
     @Override
     public OrderResponseDTO getOrderById(Long orderId) throws OrderException {
@@ -128,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    public void updateOrderPaymentStatus(PaymentStatusEventDTO paymentStatus) {
+    public void updateOrderPaymentStatus(PaymentStatusUpdateEventDTO paymentStatus) {
         try {
             Order order = orderRepository.findById(paymentStatus.getOrderId())
                     .orElseThrow(() -> {
@@ -162,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void handlePaymentEvent(PaymentStatusEventDTO paymentStatus, Order order) {
+    private void handlePaymentEvent(PaymentStatusUpdateEventDTO paymentStatus, Order order) {
         switch (paymentStatus.getPaymentStatus()) {
             case INITIATED:
                 order.setStatus(OrderStatus.PAYMENT_PENDING);

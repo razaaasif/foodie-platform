@@ -1,8 +1,8 @@
 package com.foodie.orderservice.mappers;
 
-import com.foodie.orderservice.constants.OrderStatus;
-import com.foodie.orderservice.constants.PaymentStatus;
-import com.foodie.orderservice.dto.OrderCreatedEvent;
+import com.foodie.commons.constants.OrderStatus;
+import com.foodie.commons.constants.PaymentStatus;
+import com.foodie.commons.dto.OrderCreatedEvent;
 import com.foodie.orderservice.dto.OrderItemDTO;
 import com.foodie.orderservice.dto.OrderRequestDTO;
 import com.foodie.orderservice.dto.OrderResponseDTO;

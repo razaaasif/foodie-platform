@@ -1,7 +1,7 @@
 package com.foodie.orderservice.dto;
 
-import com.foodie.orderservice.constants.OrderStatus;
-import com.foodie.orderservice.constants.PaymentStatus;
+import com.foodie.commons.constants.OrderStatus;
+import com.foodie.commons.constants.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

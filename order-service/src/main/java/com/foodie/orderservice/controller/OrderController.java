@@ -1,9 +1,9 @@
 package com.foodie.orderservice.controller;
 
+import com.foodie.commons.utils.JsonUtils;
 import com.foodie.orderservice.dto.OrderRequestDTO;
 import com.foodie.orderservice.dto.OrderResponseDTO;
 import com.foodie.orderservice.services.OrderService;
-import com.foodie.orderservice.utils.JsonUtils;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

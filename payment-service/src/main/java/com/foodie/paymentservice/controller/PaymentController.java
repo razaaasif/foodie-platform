@@ -1,16 +1,14 @@
 package com.foodie.paymentservice.controller;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentMethod;
+import com.foodie.commons.dto.PaymentStatusUpdateEventDTO;
 import com.foodie.paymentservice.dto.PaymentConfirmationRequestDTO;
 import com.foodie.paymentservice.dto.PaymentGateWayDTO;
-import com.foodie.paymentservice.dto.PaymentStatusUpdatedEvent;
 import com.foodie.paymentservice.services.PaymentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 /**
  * Created on 29/05/25.
@@ -29,7 +27,7 @@ public class PaymentController {
     }
 
     @PostMapping("/process-payment")
-    public ResponseEntity<PaymentStatusUpdatedEvent> processPayment(@Valid @RequestBody PaymentConfirmationRequestDTO paymentConfirmationRequestDTO) {
+    public ResponseEntity<PaymentStatusUpdateEventDTO> processPayment(@Valid @RequestBody PaymentConfirmationRequestDTO paymentConfirmationRequestDTO) {
         return ResponseEntity.ok(paymentService.processPayment(paymentConfirmationRequestDTO.getAmount(), paymentConfirmationRequestDTO.getTransactionId()));
     }
 

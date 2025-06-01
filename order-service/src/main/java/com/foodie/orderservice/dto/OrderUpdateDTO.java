@@ -1,6 +1,6 @@
 package com.foodie.orderservice.dto;
 
-import com.foodie.orderservice.constants.OrderStatus;
+import com.foodie.commons.constants.OrderStatus;
 import lombok.Data;
 
 /**

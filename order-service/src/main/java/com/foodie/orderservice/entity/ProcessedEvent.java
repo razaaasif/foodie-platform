@@ -1,6 +1,6 @@
 package com.foodie.orderservice.entity;
 
-import com.foodie.orderservice.constants.OrderStatus;
+import com.foodie.commons.constants.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +36,7 @@ public class ProcessedEvent {
     @Column(name = "processed_at", nullable = false)
     private LocalDateTime processedAt;
 
-    public ProcessedEvent(Long orderId ,OrderStatus orderStatus ){
+    public ProcessedEvent(Long orderId , OrderStatus orderStatus ){
         this.orderId = orderId;
         this.eventType = orderStatus;
         this.processedAt = LocalDateTime.now();

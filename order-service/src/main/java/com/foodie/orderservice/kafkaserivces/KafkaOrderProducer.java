@@ -1,9 +1,9 @@
 package com.foodie.orderservice.kafkaserivces;
 
-import com.foodie.orderservice.dto.OrderCreatedEvent;
-import com.foodie.orderservice.dto.OrderPaidEvent;
-import com.foodie.orderservice.dto.OrderPreparedEvent;
-import com.foodie.orderservice.utils.JsonUtils;
+import com.foodie.commons.dto.OrderCreatedEvent;
+import com.foodie.commons.dto.OrderPaidEvent;
+import com.foodie.commons.dto.OrderPreparedEvent;
+import com.foodie.commons.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

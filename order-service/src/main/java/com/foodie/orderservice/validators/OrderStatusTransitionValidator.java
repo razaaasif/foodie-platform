@@ -1,6 +1,7 @@
 package com.foodie.orderservice.validators;
 
-import com.foodie.orderservice.constants.OrderStatus;
+
+import com.foodie.commons.constants.OrderStatus;
 
 import java.util.Map;
 import java.util.Set;

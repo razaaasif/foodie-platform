@@ -1,6 +1,7 @@
 package com.foodie.restaurantservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 /**
@@ -24,4 +25,8 @@ public class RestaurantDTO {
 
     @NotBlank(message = "Phone number is required")
     private String phone;
+
+    @NotBlank(message = "Zipcode is required")
+    @NotNull
+    private String zipCode;
 }

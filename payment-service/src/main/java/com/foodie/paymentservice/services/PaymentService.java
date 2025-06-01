@@ -1,11 +1,11 @@
 package com.foodie.paymentservice.services;
 
-import com.foodie.paymentservice.constants.PaymentMethod;
-import com.foodie.paymentservice.constants.PaymentStatus;
+import com.foodie.commons.constants.PaymentMethod;
+import com.foodie.commons.constants.PaymentStatus;
+import com.foodie.commons.dto.PaymentStatusUpdateEventDTO;
 import com.foodie.paymentservice.dto.PaymentConfirmationRequest;
 import com.foodie.paymentservice.dto.PaymentInitiateRequest;
 import com.foodie.paymentservice.dto.PaymentInitiateResponse;
-import com.foodie.paymentservice.dto.PaymentStatusUpdatedEvent;
 import com.foodie.paymentservice.entity.Payment;
 import com.foodie.paymentservice.paymentprocessors.PaymentProcessor;
 import com.foodie.paymentservice.paymentprocessors.PaymentProcessorFactory;
@@ -57,7 +57,7 @@ public class PaymentService {
         return processor.confirmPayment(request);
     }
 
-    public PaymentStatusUpdatedEvent processPayment(BigDecimal bigDecimal, String transactionId) {
+    public PaymentStatusUpdateEventDTO processPayment(BigDecimal bigDecimal, String transactionId) {
 
         //here we can fetch from user service
         Payment payment = paymentRepository.findByTransactionId(transactionId)
@@ -70,13 +70,13 @@ public class PaymentService {
             log.warn("Payment amount mismatch. Expected: {}, Actual: {}", bigDecimal, payment.getAmount());
         }
         paymentRepository.save(payment);
-        PaymentStatusUpdatedEvent paymentStatusUpdatedEvent = mapToPaymentStatusUpdatedEventDTO(payment);
+        PaymentStatusUpdateEventDTO paymentStatusUpdatedEvent = mapToPaymentStatusUpdatedEventDTO(payment);
         kafkaTemplate.send(PAYMENT_STATUS_UPDATED_TOPIC, JsonUtils.toJson(paymentStatusUpdatedEvent));
         return paymentStatusUpdatedEvent;
     }
 
-    private PaymentStatusUpdatedEvent mapToPaymentStatusUpdatedEventDTO(Payment payment) {
-        PaymentStatusUpdatedEvent paymentStatusUpdatedEvent = new PaymentStatusUpdatedEvent();
+    private PaymentStatusUpdateEventDTO mapToPaymentStatusUpdatedEventDTO(Payment payment) {
+        PaymentStatusUpdateEventDTO paymentStatusUpdatedEvent = new PaymentStatusUpdateEventDTO();
         paymentStatusUpdatedEvent.setOrderId(payment.getOrderId());
         paymentStatusUpdatedEvent.setPaymentStatus(payment.getStatus());
         paymentStatusUpdatedEvent.setPaymentMethod(payment.getMethod());

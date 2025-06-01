@@ -1,8 +1,6 @@
 package com.foodie.orderservice.dto;
 
-import com.foodie.orderservice.constants.PaymentMethod;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import com.foodie.commons.constants.PaymentMethod;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -1,0 +1,2 @@
+alter table payments add constraint fk_payment_order FOREIGN KEY (order_id) REFERENCES orders(id);
+alter table orders add constraint fk_restaurant_order FOREIGN KEY (restaurant_id) REFERENCES restaurants(id);

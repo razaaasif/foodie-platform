@@ -1,10 +1,9 @@
 package com.foodie.orderservice.services;
 
-import com.foodie.orderservice.constants.PaymentStatus;
+import com.foodie.commons.dto.PaymentStatusUpdateEventDTO;
 import com.foodie.orderservice.dto.OrderRequestDTO;
 import com.foodie.orderservice.dto.OrderResponseDTO;
 import com.foodie.orderservice.dto.OrderUpdateDTO;
-import com.foodie.orderservice.dto.PaymentStatusEventDTO;
 import com.foodie.orderservice.exception.OrderException;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,7 +20,7 @@ public interface OrderService {
     List<OrderResponseDTO> getOrdersByUser(Long userId);
     void updateOrderStatus(OrderUpdateDTO orderUpdateDTO) throws OrderException;
     void cancelOrder(Long orderId, Long userId) throws OrderException;
-    void updateOrderPaymentStatus(PaymentStatusEventDTO paymentStatus);
+    void updateOrderPaymentStatus(PaymentStatusUpdateEventDTO paymentStatus);
 
     String getAssignedRiderForOrder(@NotNull Long orderId);
 }

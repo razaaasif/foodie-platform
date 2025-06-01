@@ -1,6 +1,6 @@
 package com.foodie.orderservice.exception;
 
-import com.foodie.orderservice.dto.ApiError;
+import com.foodie.commons.dto.ApiError;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
