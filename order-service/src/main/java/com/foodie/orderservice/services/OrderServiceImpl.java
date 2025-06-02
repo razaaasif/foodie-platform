@@ -20,6 +20,7 @@ import com.foodie.orderservice.validators.OrderStatusTransitionValidator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final KafkaOrderProducer kafkaOrderProducer;
     private final ProcessedEventRepository processedEventRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Transactional
     @Override
@@ -52,7 +54,9 @@ public class OrderServiceImpl implements OrderService {
             //save order and flush it for next event processing
             Order savedOrder = orderRepository.saveAndFlush(order);
             TransactionCallbackUtils.runAfterCommit(() -> kafkaOrderProducer.sendOrderCreatedEvent(OrderMapper.mapToOrderCreated(savedOrder)));
-            return OrderMapper.mapToOrderResponseDto(savedOrder);
+            OrderResponseDTO toSent = OrderMapper.mapToOrderResponseDto(savedOrder);
+            this.sendDataToSocket(toSent);
+            return toSent;
         } catch (Exception e) {
             log.error("Error creating order", e);
             throw new RuntimeException("Failed to create order", e);
@@ -93,8 +97,9 @@ public class OrderServiceImpl implements OrderService {
         //apply concerns
         applyStatusSpecificChanges(order,orderDTO);
         // Save changes and event
-        orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
         processedEventRepository.save(new ProcessedEvent(orderDTO.getOrderId(), orderDTO.getOrderStatus()));
+        this.sendDataToSocket(OrderMapper.mapToOrderResponseDto(savedOrder));
         //apply event if required
         publishPreparedEventIfRequired(orderDTO, order);
 
@@ -138,7 +143,8 @@ public class OrderServiceImpl implements OrderService {
                     });
 
             order.setPaymentStatus(paymentStatus.getPaymentStatus());
-            this.handlePaymentEvent(paymentStatus, order);
+            this.handlePaymentEventAndSave(paymentStatus, order);
+            this.sendDataToSocket(OrderMapper.mapToOrderResponseDto(order));
         } catch (Exception ex) {
             log.error("Error updating payment status for orderId={}", paymentStatus.getOrderId(), ex);
             throw ex;
@@ -163,7 +169,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void handlePaymentEvent(PaymentStatusUpdateEventDTO paymentStatus, Order order) {
+    private void handlePaymentEventAndSave(PaymentStatusUpdateEventDTO paymentStatus, Order order) {
         switch (paymentStatus.getPaymentStatus()) {
             case INITIATED:
                 order.setStatus(OrderStatus.PAYMENT_PENDING);
@@ -222,6 +228,11 @@ public class OrderServiceImpl implements OrderService {
     private Order fetchOrderOrThrow(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found with ID: " + orderId));
+    }
+
+
+    private void sendDataToSocket(OrderResponseDTO order) {
+        messagingTemplate.convertAndSend("/topic/order-status", order);
     }
 
 }
