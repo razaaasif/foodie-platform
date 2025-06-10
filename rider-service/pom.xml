@@ -43,9 +43,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.foodie</groupId>
             <artifactId>commons</artifactId>
-            <version>${project.version}</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

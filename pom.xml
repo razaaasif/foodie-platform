@@ -23,6 +23,7 @@
         <module>payment-service</module>
         <module>rider-service</module>
         <module>commons</module>
+        <module>rider-matcher-service</module>
     </modules>
 
     <dependencyManagement>

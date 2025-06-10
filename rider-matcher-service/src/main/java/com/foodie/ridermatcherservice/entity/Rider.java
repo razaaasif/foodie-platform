@@ -1,4 +1,4 @@
-package com.foodie.riderservice.entity;
+package com.foodie.ridermatcherservice.entity;
 
 import com.foodie.commons.constants.RiderStatus;
 import jakarta.persistence.*;

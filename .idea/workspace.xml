@@ -5,13 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b84c513f-8a26-4679-907e-6a06e2b1fed3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/foodie/orderservice/config/WebSocketConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/src/main/resources/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/constants/RiderStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/dto/RiderMatchRequestEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/exception/EntityAlreadyExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/utils/CommonUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-matcher-service/src/main/java/com/foodie/ridermatcherservice/config/WebSocketConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-matcher-service/src/main/java/com/foodie/ridermatcherservice/entity/Rider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-matcher-service/src/main/java/com/foodie/ridermatcherservice/kafka/RestaurantEventConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-matcher-service/src/main/java/com/foodie/ridermatcherservice/repository/RiderRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-matcher-service/src/main/java/com/foodie/ridermatcherservice/services/RiderMatcherService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-matcher-service/src/main/java/com/foodie/ridermatcherservice/services/RiderMatcherServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/dto/RiderDetailDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/repository/RiderRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/foodie/orderservice/services/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/foodie/orderservice/services/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/dto/ApiError.java" beforeDir="false" afterPath="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/dto/ApiError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-service/src/main/java/com/foodie/restaurantservice/kafkaservices/RestaurantEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-service/src/main/java/com/foodie/restaurantservice/kafkaservices/RestaurantEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-service/src/main/java/com/foodie/restaurantservice/util/JsonUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rider-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rider-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/controller/RiderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/controller/RiderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/entity/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/entity/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/entity/RiderId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/services/RiderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/services/RiderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/services/RiderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rider-service/src/main/java/com/foodie/riderservice/services/RiderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +41,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -51,18 +73,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.order-service.executor": "Run",
     "Application.payment-service.executor": "Run",
-    "Application.restaurant-service.executor": "Run",
+    "Application.restaurant-service.executor": "Debug",
+    "Application.rider-service.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Maven.foodie-app [clean,install].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/moglix/Desktop/my-repos/foodie-app/commons/src/main/java/com/foodie/commons",
+    "git-widget-placeholder": "rider-management",
+    "last_opened_file_path": "/home/moglix/Desktop/my-repos/foodie-app/rider-matcher-service",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -77,8 +102,19 @@
       <recent name="$PROJECT_DIR$/commons/src/main/java/com/foodie/commons/dto" />
       <recent name="$PROJECT_DIR$/restaurant-service/src/main/java/com/foodie/restaurantservice/entity" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.foodie.riderservice.exception" />
+      <recent name="com.foodie.commons.exception" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.restaurant-service">
+  <component name="RunManager" selected="Application.order-service">
+    <configuration name="order-service" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.foodie.orderservice.OrderServiceApplication" />
+      <module name="order-service" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="payment-service" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.foodie.paymentservice.PaymentServiceApplication" />
       <module name="payment-service" />
@@ -93,9 +129,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="rider-service" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.foodie.riderservice.RiderServiceApplication" />
+      <module name="rider-service" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.payment-service" />
       <item itemvalue="Application.restaurant-service" />
+      <item itemvalue="Application.rider-service" />
+      <item itemvalue="Application.order-service" />
     </list>
   </component>
   <component name="TaskManager">
